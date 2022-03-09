@@ -1,6 +1,12 @@
  <body>
   <main>
   <div class="container px-5 px-sm-0">
+   <% if @books.errors.any? %>
+            <h3><%= @books.errors.count %> error prohibited this obj from being saved:</h3>
+            <ul><% @books.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %></ul>
+          <% end %>
    <div class="row">
     <%= render 'users/users', user:@user, book:@books %>
       <div class="col-md-8 offset-md-1">
@@ -17,7 +23,7 @@
          <tbody>
            <% @book.each do |book| %>
            <tr>
-             <td><%= attachment_image_tag @user, :profile_image, size: "40x40", fallback: "no_image.jpg"%></td>
+             <td><%= link_to user_path(book.user_id) do %><%= attachment_image_tag @user, :profile_image, size: "40x40", fallback: "no_image.jpg"%><% end %></td>
              <td><%= link_to book.title, book_path(book.id) %></td>
              <td><%= book.body %></td>
            </tr>
